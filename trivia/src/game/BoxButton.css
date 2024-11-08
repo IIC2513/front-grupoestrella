@@ -1,0 +1,21 @@
+button {
+    background-color: #007bff; /* Color de fondo del botón (azul) */
+    color: #fff; /* Color del texto del botón (blanco) */
+    border: none; /* Eliminar el borde por defecto */
+    padding: 10px 20px; /* Espaciado interno del botón */
+    font-size: 16px; /* Tamaño del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Mostrar el cursor de "manita" */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Color del botón al pasar el ratón (un azul más oscuro) */
+    transform: scale(1.05); /* Aumentar ligeramente el tamaño al pasar el ratón */
+  }
+  
+  button:active {
+    background-color: #004494; /* Color del botón al hacer clic (un azul aún más oscuro) */
+    transform: scale(0.95); /* Reducir ligeramente el tamaño al hacer clic */
+  }
+  
