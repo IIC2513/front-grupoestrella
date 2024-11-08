@@ -28,8 +28,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <a href='welcome'> Ir a User Welcome</a>
-      <a href='instructions'> Ir a Instrucions</a>
+      <a href='/welcome'> Ir a User Welcome</a>
+      <a href='/instructions'> Ir a Instrucions</a>
+      <a href='/board'> Ir a Jugar</a>
     </>
   )
 }
