@@ -1,43 +1,55 @@
+// Board.jsx
+import React, { useState } from 'react';
 import './Board.css';
-import Box from "./Box";
-import './Box.css';
-import React, { useState, useEffect, createContext } from 'react';
+import Box from './Box';
+import Question from './Question';
 
-export const GameContext = createContext();
+const Board = () => {
+  const totalSquares = 60; // Número total de casillas en el tablero
 
-export default function Board() {
-    const [guess, setGuess] = useState();
+  // Colores de las categorías de casillas
+  const categories = [
+    "red", "blue", "green", "yellow", "purple", "orange", "black", "gold"
+  ];
 
-    const boxes = [
-        { id: 1, imgSrc: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f8/Mr._Krabs.svg/800px-Mr._Krabs.svg.png" },
-        { id: 2, imgSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Patrick_Star.jpg/320px-Patrick_Star.jpg" },
-        { id: 3, imgSrc: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRDwOvowjUCpJh2Jw6PqyEeWPMMNbTKNSzbnty5hSBhAJpde75C0MEN6X647TerkTigK86XF-ppA9cZJ9Kal-k-Ve4XR0HtaykDpHrX5Q" }
-    ];
+  // Preguntas de ejemplo con respuesta correcta
+  const sampleQuestions = [
+    { text: "¿Cuál es el océano más grande del mundo?", options: ["Atlántico", "Pacífico", "Índico", "Ártico"], correctAnswer: "Pacífico" },
+    { text: "¿Quién pintó la Mona Lisa?", options: ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"], correctAnswer: "Da Vinci" },
+    { text: "¿Cuál es la capital de Australia?", options: ["Canberra", "Sydney", "Melbourne", "Perth"], correctAnswer: "Canberra" },
+    { text: "¿Cuántos planetas hay en el sistema solar?", options: ["7", "8", "9", "10"], correctAnswer: "8" }
+  ];
 
-    const opponentSelectionId = 2;
+  // Estado del modal y pregunta actual
+  const [showQuestion, setShowQuestion] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
 
-    useEffect(() => {
-        if (guess === opponentSelectionId) {
-            alert('¡Adivinaste!');
-            setGuess(undefined);
-        } else if (typeof guess === 'number') {
-            alert('¡Fallaste!');
-            setGuess(undefined);
-        }
-    }, [guess]);
+  // Generar el tablero con las casillas de colores y preguntas
+  const generateBoard = () => {
+    return Array.from({ length: totalSquares }, (_, index) => (
+      <Box
+        key={index}
+        id={index}
+        color={categories[index % categories.length]}
+        question={sampleQuestions[index % sampleQuestions.length]}
+        setCurrentQuestion={setCurrentQuestion}
+        setShowQuestion={setShowQuestion}
+      />
+    ));
+  };
 
-    return (
-        <GameContext.Provider value={{ guess, setGuess }}>
-            <div className="board">
-                <div className="board-row">
-                    {boxes.slice(0, 2).map(box => (
-                        <Box key={box.id} id={box.id} imgSrc={box.imgSrc} />
-                    ))}
-                </div>
-                <div className="board-row">
-                    <Box key={boxes[2].id} id={boxes[2].id} imgSrc={boxes[2].imgSrc} />
-                </div>
-            </div>
-        </GameContext.Provider>
-    );
-}
+  return (
+    <div className="board">
+      <h1>Trivia Board Challenge</h1>
+      <div className="board-grid">
+        {generateBoard()}
+      </div>
+      <a href='/' className="button-link">Volver</a>
+      {showQuestion && currentQuestion && (
+        <Question question={currentQuestion} closeQuestion={() => setShowQuestion(false)} />
+      )}
+    </div>
+  );
+};
+
+export default Board;

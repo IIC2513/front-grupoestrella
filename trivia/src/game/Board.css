@@ -1,10 +1,19 @@
 .board {
-    display: table;
-    background-color: aliceblue;
-    padding: 20px;
-}
-
-.board-row{
     display: flex;
-    flex-direction: row;
-}
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Ajusta el número de columnas para el diseño */
+    gap: 5px;
+    max-width: 600px;
+    margin: 1rem 0;
+  }
+  
+  h1 {
+    color: #FFA500;
+  }
+  
