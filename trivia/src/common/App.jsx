@@ -14,7 +14,6 @@ const App = () => {
   };
 
   return (
-    
     <div className="app-container">
       <a href='/instructions'> Ir a Instrucciones</a>
       <a href='/about'> Acerca de</a>
@@ -23,19 +22,16 @@ const App = () => {
           <h1>Bienvenidos a Trivia Board Challenge</h1>
           <p>¡Responde preguntas y avanza en el tablero para ganar!</p>
 
-
-
           <div className="buttons">
             <button onClick={handleLogin}>Inicia sesión</button>
-            <button onClick={handleLogin}>Regístrate</button>
+            <a href="/register" className="button-link">Registrarse</a> {/* Enlace a la página de registro */}
           </div>
-
         </div>
       ) : (
-        <div className='main-menu'>
+        <div className="main-menu">
           <h1>Menú Principal</h1>
           <div className="menu-buttons">
-            <a href='/board' class="button-link"> Ver Tablero</a>
+            <a href='/board' className="button-link">Ver Tablero</a>
             <button onClick={handleLogout}>Cerrar Sesión</button>
           </div>
         </div>
