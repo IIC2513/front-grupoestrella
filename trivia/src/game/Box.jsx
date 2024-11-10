@@ -13,6 +13,7 @@ export default function Box({id, imgSrc}){
         setShowImage(!showImage);
     }
     const handleGuess = () => {
+        console.log('guess', id);
         setGuess(id);
     }
     return(
@@ -22,7 +23,7 @@ export default function Box({id, imgSrc}){
             </div>
             <div className='box-actions'>
                 <BoxButton onClick={toggleImage} label = {showImage ? "Ocultar" : "Mostrar"}/>
-                {showImage && <BoxButton onClick={toggleImage} label = "Adivinar"/>}
+                {showImage && <BoxButton onClick={handleGuess} label="Adivinar" />}
             </div>
         </div>
     )
