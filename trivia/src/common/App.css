@@ -1,7 +1,8 @@
 /* App.css */
+
 body {
   margin: 0;
-  background-color: #ff9747a2; /* Fondo naranja */
+  background-color: #ff9747a2;
   color: #FFFFFF;
   font-family: Arial, sans-serif;
   display: flex;
@@ -18,7 +19,7 @@ body {
 }
 
 h1, h2 {
-  color: #8B0000; /* Color rojo oscuro para los títulos */
+  color: #8B0000;
 }
 
 .info-buttons {
@@ -26,7 +27,7 @@ h1, h2 {
   justify-content: center;
   gap: 20px;
   margin-top: 20rem;
-  padding-top: 20px; /* Espacio adicional para bajar los enlaces */
+  padding-top: 20px;
 }
 
 .buttons, .menu-buttons {
@@ -58,24 +59,40 @@ button:hover {
 }
 
 .button-link {
-  display: inline-block; /* Asegura que el enlace se comporte como un elemento en línea */
+  display: inline-block;
   padding: 0.8rem 1.5rem;
-  background-color: #FFA500; /* Color de fondo del botón */
-  color: #FFFFFF; /* Color del texto */
+  background-color: #FFA500;
+  color: #FFFFFF;
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
-  text-decoration: none; /* Elimina el subrayado del enlace */
-  border-radius: 8px; /* Bordes redondeados */
-  transition: background-color 0.3s, transform 0.2s; /* Transiciones para hover */
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .button-link:hover {
-  background-color: #FFB347; /* Color de fondo al pasar el mouse */
-  transform: scale(1.05); /* Efecto de escala */
+  background-color: #FFB347;
+  transform: scale(1.05);
 }
 
 .button-link:active {
-  background-color: #FF8C00; /* Color del botón al hacer clic */
-  transform: scale(0.95); /* Reduce el tamaño al hacer clic */
+  background-color: #FF8C00;
+  transform: scale(0.95);
+}
+
+/* Estilos para reducir y centrar las imágenes */
+.images-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.images-container img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
 }

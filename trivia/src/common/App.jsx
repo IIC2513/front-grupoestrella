@@ -2,6 +2,14 @@
 import React, { useState } from 'react';
 import './App.css';
 
+// Importar las imágenes
+import ArteImg from '../assets/images/arte.png';
+import CienciaImg from '../assets/images/ciencia.png';
+import CulturaImg from '../assets/images/cultura.png';
+import DeporteImg from '../assets/images/deporte.png';
+import GeografiaImg from '../assets/images/geografia.png';
+import HistoriaImg from '../assets/images/historia.png';
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -24,7 +32,17 @@ const App = () => {
 
           <div className="buttons">
             <button onClick={handleLogin}>Inicia sesión</button>
-            <a href="/register" className="button-link">Registrarse</a> {/* Enlace a la página de registro */}
+            <a href="/register" className="button-link">Registrarse</a>
+          </div>
+
+          {/* Ubicar las imágenes debajo de los botones */}
+          <div className="images-container">
+            <img src={ArteImg} alt="Arte" />
+            <img src={CienciaImg} alt="Ciencia" />
+            <img src={CulturaImg} alt="Cultura" />
+            <img src={DeporteImg} alt="Deporte" />
+            <img src={GeografiaImg} alt="Geografía" />
+            <img src={HistoriaImg} alt="Historia" />
           </div>
         </div>
       ) : (
