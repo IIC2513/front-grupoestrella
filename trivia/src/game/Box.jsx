@@ -2,16 +2,21 @@
 import React from 'react';
 import './Box.css';
 
-const Box = ({ id, color, question, setCurrentQuestion, setShowQuestion }) => {
+const Box = ({ id, color, questions, setCurrentQuestion, setShowQuestion }) => {
 
     const handleClick = () => {
-        setCurrentQuestion(question);
-        setShowQuestion(true);
+        if (questions && questions.length > 0) {
+            // Seleccionar una pregunta aleatoria de las asociadas a la box
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            setCurrentQuestion(questions[randomIndex]);
+            setShowQuestion(true);
+        }
     };
 
     return (
         <div className={`box ${color}`} onClick={handleClick}>
-            {/* El Box no muestra nada adicional; solo abre la pregunta al hacer clic */}
+            <div className="box-content">
+            </div>
         </div>
     );
 };

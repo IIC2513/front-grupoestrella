@@ -12,7 +12,7 @@ const Question = ({ question, closeQuestion }) => {
 
     // Verificar la respuesta y cerrar el modal después
     const handleAnswer = () => {
-        if (selectedOption === question.correctAnswer) {
+        if (selectedOption === question.answer) {
             alert("¡Respuesta correcta!");
         } else {
             alert("Respuesta incorrecta.");
@@ -23,7 +23,7 @@ const Question = ({ question, closeQuestion }) => {
     return (
         <div className="question-modal">
             <div className="question-content">
-                <h2>{question.text}</h2>
+                <h2>{question.question}</h2>
                 <div className="options">
                     {question.options.map((option, index) => (
                         <button 
