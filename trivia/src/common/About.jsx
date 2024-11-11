@@ -27,7 +27,7 @@ const About = () => {
         <p>Nuestro equipo está compuesto por estudiantes apasionados de la tecnología y el aprendizaje, unidos por el objetivo de crear una plataforma interactiva y educativa. Cada miembro ha contribuido con su talento y habilidades únicas para hacer que Trivia Board Challenge sea una realidad.</p>
       </section>
 
-      <a href="/" className="back-button">Volver</a>
+      <a href="/" className="button-link">Volver</a>
 
         
     </div>
