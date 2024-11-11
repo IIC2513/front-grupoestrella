@@ -23,8 +23,12 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert('¡Registro exitoso!');
-    localStorage.setItem('isLoggedIn', 'true'); // Guardar el estado de "logueado"
-    navigate('/'); // Redirigir a la página principal
+    localStorage.setItem('isLoggedIn', 'true');
+    navigate('/');
+  };
+
+  const handleBack = () => {
+    navigate('/');
   };
 
   return (
@@ -61,8 +65,11 @@ const Register = () => {
             required
           />
         </label>
-        <button type="submit">Registrarse</button>
+        <button type="submit" className="button-link">Registrarse</button>
       </form>
+      
+      {/* Botón de "Volver" con clase adicional para el margen */}
+      <button onClick={handleBack} className="button-link back-button">Volver</button>
     </div>
   );
 };

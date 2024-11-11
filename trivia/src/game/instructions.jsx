@@ -60,7 +60,7 @@ const Instructions = () => {
           <li>Casilla dorada: responde correctamente para avanzar el doble del lanzamiento del dado.</li>
         </ul>
       </section>
-      <a href="/" className="back-button">Volver</a>
+      <a href="/" className="button-link">Volver</a>
     </div>
   );
 };
