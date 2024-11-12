@@ -54,7 +54,7 @@ const Board = () => {
       <Box
         key={box.boxId}
         id={box.boxId}
-        color={categoryColors[box.category] || 'black'}
+        colour={categoryColors[box.category] || 'black'}
         questions={box.questions}
         setCurrentQuestion={setCurrentQuestion}
         setShowQuestion={setShowQuestion}
