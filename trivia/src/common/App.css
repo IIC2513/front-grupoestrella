@@ -22,14 +22,6 @@ h1, h2 {
   color: #8B0000;
 }
 
-.info-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20rem;
-  padding-top: 20px;
-}
-
 .buttons, .menu-buttons {
   display: flex;
   justify-content: center;
@@ -37,62 +29,69 @@ h1, h2 {
   margin-top: 2rem;
 }
 
-button {
-  background-color: #FFFFFF;
-  color: #FFA500;
+button, .button-link {
+  background-color: #FFA500;
+  color: #FFFFFF;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
   border: none;
-  padding: 1.2rem 1.5rem;
-  font-size: 1.2rem;
-  border-radius: 9px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
 
-button:hover {
+button:hover, .button-link:hover {
   background-color: #FFB347;
   transform: scale(1.05);
 }
 
-.landing-page, .main-menu {
-  max-width: 100%;
-  margin: auto;
-}
-
-.button-link {
-  display: inline-block;
-  padding: 0.8rem 1.5rem;
-  background-color: #FFA500;
-  color: #FFFFFF;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.button-link:hover {
-  background-color: #FFB347;
-  transform: scale(1.05);
-}
-
-.button-link:active {
-  background-color: #FF8C00;
-  transform: scale(0.95);
-}
-
-/* Estilos para reducir y centrar las imágenes */
 .images-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
   margin-top: 1.5rem;
 }
 
 .images-container img {
+  position: absolute;
   width: 80px;
   height: 80px;
   object-fit: cover;
   border-radius: 5px;
+}
+
+.images-container img:nth-child(1) {
+  top: -70%;
+  left: -30%;
+}
+
+.images-container img:nth-child(2) {
+  top: 20%;
+  left: -20%;
+}
+
+.images-container img:nth-child(3) {
+  top: 30%;
+  left: 25%;
+}
+
+.images-container img:nth-child(4) {
+  top: 30%;
+  left: 65%;
+}
+
+.images-container img:nth-child(5) {
+  top: 20%;
+  left: 100%;
+}
+
+.images-container img:nth-child(6) {
+  top: -70%;
+  left: 120%;
+  transform: translateX(-50%);
 }
