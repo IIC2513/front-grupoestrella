@@ -10,13 +10,12 @@ import DeporteImg from '../assets/images/deporte.png';
 import GeografiaImg from '../assets/images/geografia.png';
 import HistoriaImg from '../assets/images/historia.png';
 
-const App = () => {
-  const [isLoggedIn] = useState(false);
+const LoggedIn = () => {
+  const [isLoggedIn] = useState(true);
+
 
   return (
     <div className="app-container">
-      <a href='/instructions' className="button-link">Ir a Instrucciones</a>
-      <a href='/about' className="button-link">Acerca de</a>
       {!isLoggedIn ? (
         <div className="landing-page">
           <h1>Bienvenidos a Trivia Board Challenge</h1>
@@ -58,4 +57,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default LoggedIn;
