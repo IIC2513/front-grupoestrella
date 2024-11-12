@@ -22,6 +22,7 @@ function Register() {
         console.log('Registro exitoso! Ahora puedes volver y loguearte');
         setError(false);
         setMsg('Registro exitoso! Ahora puedes volver y loguearte');
+        console.log(response)
         navigate('/'); 
       }).catch((error) => {      
         console.error('Ocurrió un error:', error);

@@ -2,7 +2,7 @@
 import React from 'react';
 import './Box.css';
 
-const Box = ({ id, color, questions, setCurrentQuestion, setShowQuestion }) => {
+const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion }) => {
 
     const handleClick = () => {
         if (questions && questions.length > 0) {
@@ -14,7 +14,7 @@ const Box = ({ id, color, questions, setCurrentQuestion, setShowQuestion }) => {
     };
 
     return (
-        <div className={`box ${color}`} onClick={handleClick}>
+        <div className={`box ${colour}`} onClick={handleClick}>
             <div className="box-content">
             </div>
         </div>

@@ -9,18 +9,9 @@ import CulturaImg from '../assets/images/cultura.png';
 import DeporteImg from '../assets/images/deporte.png';
 import GeografiaImg from '../assets/images/geografia.png';
 import HistoriaImg from '../assets/images/historia.png';
-import LogoutButton from '../profile/Logout';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+  const [isLoggedIn] = useState(false);
 
   return (
     <div className="app-container">

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import React from 'react';
 import Instructions  from '../game/instructions'
 import UserWelcome from '../profile/UserWelcome'
 import App from './App'
