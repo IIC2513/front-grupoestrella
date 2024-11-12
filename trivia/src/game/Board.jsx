@@ -68,7 +68,7 @@ const Board = () => {
       <div className="board-grid">
         {generateBoard()}
       </div>
-      <a href='/' className="button-link">Volver</a>
+      <a href='/loggedin' className="button-link">Volver</a>
       {showQuestion && currentQuestion && (
         <Question question={currentQuestion} closeQuestion={() => setShowQuestion(false)} />
       )}

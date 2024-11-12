@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext';
 import axios from 'axios';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
@@ -10,6 +11,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,6 +28,8 @@ function Login() {
         localStorage.setItem('token', access_token);
         setToken(access_token);
         console.log("Se seteo el token: ", token);
+        navigate('/loggedin'); 
+        
       }).catch((error) => {
         console.error('An error occurred while trying to login:', error);
         setError(true);

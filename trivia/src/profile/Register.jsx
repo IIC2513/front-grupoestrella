@@ -1,77 +1,75 @@
-// Register.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Register.css';
+import axios from 'axios';
+import './Register.css'; 
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
+function Register() {
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [msg, setMsg] = useState("");
+  const navigate = useNavigate(); // Inicializar navigate
 
-  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('¡Registro exitoso!');
-    localStorage.setItem('isLoggedIn', 'true');
-    navigate('/');
-  };
-
-  const handleBack = () => {
-    navigate('/');
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
+        name: name,
+        mail: mail,
+        password: password
+      }).then((response) => {
+        console.log('Registro exitoso! Ahora puedes volver y loguearte');
+        setError(false);
+        setMsg('Registro exitoso! Ahora puedes volver y loguearte');
+        navigate('/'); 
+      }).catch((error) => {      
+        console.error('Ocurrió un error:', error);
+        setError(true); // Aquí puede haber más lógica para tratar los errores
+      });
   };
 
   return (
-    <div className="register-container">
-      <h1>Registro</h1>
+    <div className="Register"> {/* Cambiado de Login a Register */}
+      {msg.length > 0 && <div className="successMsg"> {msg} </div>}
+
+      {error && <div className="error">Hubo un error con el Registro, por favor trata nuevamente.</div>}
+
       <form onSubmit={handleSubmit}>
         <label>
-          Nombre de usuario:
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
+          name:
+          <input 
+            type="text" 
+            name="name"
+            value={name}
+            onChange={e => setName(e.target.value)}
             required
           />
         </label>
         <label>
-          Correo electrónico:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+          mail:
+          <input 
+            type="email"  // Cambiado de "mail" a "email" para mayor claridad
+            name="mail"
+            value={mail}
+            onChange={e => setMail(e.target.value)}
             required
           />
         </label>
         <label>
-          Contraseña:
-          <input
-            type="password"
+          Password:
+          <input 
+            type="password" 
             name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             required
           />
         </label>
-        <button type="submit" className="button-link">Registrarse</button>
+        <input type="submit" value="Submit" />
       </form>
-      
-      {/* Botón de "Volver" con clase adicional para el margen */}
-      <button onClick={handleBack} className="button-link back-button">Volver</button>
     </div>
   );
-};
+}
 
 export default Register;
