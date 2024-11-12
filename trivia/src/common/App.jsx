@@ -9,6 +9,7 @@ import CulturaImg from '../assets/images/cultura.png';
 import DeporteImg from '../assets/images/deporte.png';
 import GeografiaImg from '../assets/images/geografia.png';
 import HistoriaImg from '../assets/images/historia.png';
+import LogoutButton from '../profile/Logout';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,6 +26,7 @@ const App = () => {
     <div className="app-container">
       <a href='/instructions' className="button-link">Ir a Instrucciones</a>
       <a href='/about' className="button-link">Acerca de</a>
+      <a href='/login' className="button-link">Ingresar</a>
       {!isLoggedIn ? (
         <div className="landing-page">
           <h1>Bienvenidos a Trivia Board Challenge</h1>
@@ -49,7 +51,7 @@ const App = () => {
           <h1>Menú Principal</h1>
           <div className="menu-buttons">
             <a href='/board' className="button-link">Ver Tablero</a>
-            <a onClick={handleLogout} className="button-link">Cerrar Sesión</a>
+            <a href='/logout' className="button-link">Log out</a>
           </div>
 
           <div className="images-container">
