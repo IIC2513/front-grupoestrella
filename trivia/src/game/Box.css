@@ -1,0 +1,21 @@
+.box {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #FFF;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .box.red { background-color: red; }
+  .box.blue { background-color: blue; }
+  .box.green { background-color: green; }
+  .box.yellow { background-color: goldenrod; }
+  .box.purple { background-color: purple; }
+  .box.orange { background-color: darkorange; }
+  .box.black { background-color: black; color: #FFF; }
+  .box.gold { background-color: gold; color: #333; }
+  
