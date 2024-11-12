@@ -1,7 +1,8 @@
+// Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Register.css'; 
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [name, setName] = useState("");
@@ -9,7 +10,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
-  const navigate = useNavigate(); // Inicializar navigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,26 +20,22 @@ function Register() {
         mail: mail,
         password: password
       }).then((response) => {
-        console.log('Registro exitoso! Ahora puedes volver y loguearte');
         setError(false);
         setMsg('Registro exitoso! Ahora puedes volver y loguearte');
-        console.log(response)
         navigate('/'); 
       }).catch((error) => {      
-        console.error('Ocurrió un error:', error);
-        setError(true); // Aquí puede haber más lógica para tratar los errores
+        setError(true);
       });
   };
 
   return (
-    <div className="Register"> {/* Cambiado de Login a Register */}
+    <div className="register-container">
+      <h1>Registro</h1>
       {msg.length > 0 && <div className="successMsg"> {msg} </div>}
-
-      {error && <div className="error">Hubo un error con el Registro, por favor trata nuevamente.</div>}
-
+      {error && <div className="error">Hubo un error con el Registro, por favor intenta nuevamente.</div>}
       <form onSubmit={handleSubmit}>
         <label>
-          name:
+          Nombre:
           <input 
             type="text" 
             name="name"
@@ -48,9 +45,9 @@ function Register() {
           />
         </label>
         <label>
-          mail:
+          Correo Electrónico:
           <input 
-            type="email"  // Cambiado de "mail" a "email" para mayor claridad
+            type="email"
             name="mail"
             value={mail}
             onChange={e => setMail(e.target.value)}
@@ -58,7 +55,7 @@ function Register() {
           />
         </label>
         <label>
-          Password:
+          Contraseña:
           <input 
             type="password" 
             name="password"
@@ -67,8 +64,10 @@ function Register() {
             required
           />
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Registrarse" />
       </form>
+      {/* Botón "Volver" */}
+      <button onClick={() => navigate('/')} className="button-link back-button">Volver</button>
     </div>
   );
 }
