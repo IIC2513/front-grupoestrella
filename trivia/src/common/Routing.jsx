@@ -11,6 +11,7 @@ import UserCheck from '../protected/UserCheck'
 import LogoutButton from '../profile/Logout'
 import LoggedIn from './LoggedIn'
 import Crear from './Crear'
+import VerPartidas from './Verpartidas'
 
 function Routing(){
     return(
@@ -28,6 +29,7 @@ function Routing(){
             <Route path={"/logout"} element={<LogoutButton />}/>
             <Route path={"/loggedin"} element={<LoggedIn />}/>
             <Route path={"/crear"} element={<Crear />}/>
+            <Route path={'/ver-partida'} element={<VerPartidas />} /> 
 
         </Routes>
         </BrowserRouter>
