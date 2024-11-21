@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Crear() {
     const [nombreUsuario, setNombreUsuario] = useState('');
-    const [numeroJugadores, setNumeroJugadores] = useState('');
+    const [numeroJugadores, setNumeroJugadores] = useState(2); // Valor inicial en 2
     const [mensaje, setMensaje] = useState('');
     const navigate = useNavigate();
 
@@ -14,16 +14,17 @@ function Crear() {
 
         // Datos que se enviarán al backend
         const data = {
-            nombreUsuario: nombreUsuario,
+            mail: localStorage.getItem('userMail'),
             numeroJugadores: numeroJugadores,
         };
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/crear-partida`, data);
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games`, data);
             console.log('Partida creada:', response.data);
             setMensaje('¡Partida creada exitosamente!');
-            // Navegar a otra página si es necesario
-            navigate('/loggedin');
+            setTimeout(() => {
+                navigate('/loggedin'); // Navegar de regreso después de un éxito
+            }, 2000);
         } catch (error) {
             console.error('Error al crear la partida:', error);
             setMensaje('Hubo un error al crear la partida. Por favor, intenta nuevamente.');
@@ -33,28 +34,22 @@ function Crear() {
     return (
         <div className="crear-container">
             <h1>Crear Partida</h1>
-            {mensaje && <p className="mensaje">{mensaje}</p>}
+            {mensaje && <div className="mensaje">{mensaje}</div>}
             <form onSubmit={handleSubmit} className="crear-form">
-                <label>
-                    Nombre del Usuario:
-                    <input
-                        type="text"
-                        value={nombreUsuario}
-                        onChange={(e) => setNombreUsuario(e.target.value)}
-                        required
-                    />
-                </label>
+
                 <label>
                     Número de Jugadores:
-                    <input
-                        type="number"
+                    <select
                         value={numeroJugadores}
-                        onChange={(e) => setNumeroJugadores(e.target.value)}
+                        onChange={(e) => setNumeroJugadores(Number(e.target.value))}
                         required
-                    />
+                    >
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                    </select>
                 </label>
-                {/* Agrega más campos aquí según lo que necesites */}
-                <button type="submit">Crear Partida</button>
+                <button type="submit" className="crear-btn">Crear Partida</button>
             </form>
         </div>
     );
