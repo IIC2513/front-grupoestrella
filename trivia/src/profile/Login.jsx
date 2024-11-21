@@ -23,10 +23,12 @@ function Login() {
       console.log('Login successful');
       setError(false);
       setMsg("Login exitoso!");
+      console.log(response.data)
       const access_token = response.data.access_token;
       localStorage.setItem('token', access_token);
+      localStorage.setItem('userMail', mail);
       setToken(access_token);
-      console.log("Se seteo el token: ", token);
+      console.log("Se seteo el token: ", access_token);
       navigate('/loggedin');
     }).catch((error) => {
       console.error('An error occurred while trying to login:', error);

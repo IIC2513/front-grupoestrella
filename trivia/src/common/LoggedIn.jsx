@@ -12,6 +12,7 @@ import HistoriaImg from '../assets/images/historia.png';
 
 const LoggedIn = () => {
   const [isLoggedIn] = useState(true);
+  const user = localStorage.getItem('userMail');
 
 
   return (
@@ -39,7 +40,9 @@ const LoggedIn = () => {
         <div className="main-menu">
           <h1>Menú Principal</h1>
           <div className="menu-buttons">
-            <a href='/board' className="button-link">Ver Tablero</a>
+            <a href='/crear' className="button-link">Crear Partida</a>
+            <a href='/board' className="button-link">Ver Partidas</a>
+            <h3>{user}</h3>
             <a href='/logout' className="button-link">Log out</a>
           </div>
 

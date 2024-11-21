@@ -10,6 +10,7 @@ import Login from '../profile/Login'
 import UserCheck from '../protected/UserCheck'
 import LogoutButton from '../profile/Logout'
 import LoggedIn from './LoggedIn'
+import Crear from './Crear'
 
 function Routing(){
     return(
@@ -26,6 +27,7 @@ function Routing(){
             <Route path={"/usercheck"} element={<UserCheck />}/>
             <Route path={"/logout"} element={<LogoutButton />}/>
             <Route path={"/loggedin"} element={<LoggedIn />}/>
+            <Route path={"/crear"} element={<Crear />}/>
 
         </Routes>
         </BrowserRouter>
