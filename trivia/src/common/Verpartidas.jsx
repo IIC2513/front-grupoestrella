@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Verpartidas.css';
 
-function ViewGames() {
+function VerPartidas() {
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
 
@@ -40,4 +40,4 @@ function ViewGames() {
   );
 }
 
-export default ViewGames;
+export default VerPartidas;
