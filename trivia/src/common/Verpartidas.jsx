@@ -1,4 +1,3 @@
-// ViewGames.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,12 +7,28 @@ function VerPartidas() {
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
 
+  // Función para obtener las partidas desde la API
+  const fetchGames = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games`);
+      setGames(response.data.games || []);
+      console.log("Partidas actualizadas:", response.data.games);
+    } catch (error) {
+      console.error("Error al obtener las partidas:", error);
+    }
+  };
+
   useEffect(() => {
-    // Simulación de fetch a la API para obtener las partidas
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/games`)
-      .then((response) => response.json())
-      .then((data) => setGames(data.games || []))
-      .catch((error) => console.error('Error fetching games:', error));
+    // Cargar las partidas al montar el componente
+    fetchGames();
+
+    // Configurar un intervalo para actualizar las partidas cada 5 segundos
+    const intervalId = setInterval(() => {
+      fetchGames();
+    }, 5000);
+
+    // Limpiar el intervalo al desmontar el componente
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleBack = () => {
@@ -24,7 +39,8 @@ function VerPartidas() {
     try {
       // Obtener el mail del usuario desde localStorage
       const userMail = localStorage.getItem('userMail');
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
+      console.log("Enviando", userMail);
       if (!userMail) {
         alert("No se encontró el correo del usuario. Por favor, inicia sesión.");
         return;
@@ -32,8 +48,6 @@ function VerPartidas() {
 
       // Guardar el ID del juego en localStorage para usarlo en Board
       localStorage.setItem('idGame', idGame);
-      
-      //const idGame = localStorage.getItem('idGame');
 
       // Realizar la solicitud POST al backend
       const response = await axios.post(
@@ -50,16 +64,15 @@ function VerPartidas() {
       );
 
       // Confirmar que se unió al juego
-      console.log('Unido al juego:', response.data);
+      console.log("Unido al juego:", response.data);
 
       // Navegar a la página de tablero
       navigate('/board');
     } catch (error) {
-      console.error('Error al unirse al juego:', error);
+      console.error("Error al unirse al juego:", error);
       alert("Hubo un error al intentar unirse al juego. Por favor, intenta nuevamente.");
     }
   };
-
 
   return (
     <div className="view-games-container">
@@ -72,8 +85,8 @@ function VerPartidas() {
               <p><strong>Estado:</strong> {game.status === 0 ? 'Pendiente' : 'En Progreso'}</p>
               <p><strong>Turno:</strong> {game.turn}</p>
               <button onClick={() => handleJoinGame(game.id)} className="button-link">
-              Join
-            </button>
+                Join
+              </button>
             </div>
           ))
         ) : (
