@@ -42,6 +42,7 @@ const LoggedIn = () => {
           <div className="menu-buttons">
             <a href='/crear' className="button-link">Crear Partida</a>
             <a href='/ver-partida' className="button-link">Ver Partidas</a>
+            <a href='/mis-partidas' className="button-link">Mis Partidas</a>
             <a href='/logout' className="button-link">Log out</a>
           </div>
 
