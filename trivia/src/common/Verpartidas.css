@@ -1,57 +1,54 @@
-/* ViewGames.css */
-
 .view-games-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    background-color: #ff9747a2;
-    color: #FFFFFF;
-    min-height: 100vh;
-  }
-  
-  h1 {
-    color: #8B0000;
-    margin-bottom: 2rem;
-  }
-  
-  .games-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
-  .game-card {
-    background-color: #FFFFFF;
-    color: #8B0000;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 200px;
-  }
-  
-  .button-link {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    background-color: #FFA500;
-    color: #FFFFFF;
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  .button-link:hover {
-    background-color: #FFB347;
-    transform: scale(1.05);
-  }
-  
-  .back-button {
-    margin-top: 2rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem;
+  background-color: #ff9747a2;
+  color: #FFFFFF;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #8B0000;
+  margin-bottom: 2rem;
+}
+
+.games-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.game-card {
+  background-color: #FFFFFF;
+  color: #8B0000;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 200px;
+}
+
+.button-link {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #FFA500;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button-link:hover {
+  background-color: #FFB347;
+  transform: scale(1.05);
+}
+
+.back-button {
+  margin-top: 2rem;
+}

@@ -8,6 +8,7 @@ function Crear() {
     const [numeroJugadores, setNumeroJugadores] = useState(2); // Valor inicial en 2
     const [mensaje, setMensaje] = useState('');
     const navigate = useNavigate();
+    const token = localStorage.getItem('token')
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,17 +20,38 @@ function Crear() {
         };
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games`, data);
+            // Crear la partida
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games`, data,
+                {
+                    headers: {
+                      Authorization: `Bearer ${token}`, // Incluye el token
+                    },
+                  }
+            );
             console.log('Partida creada:', response.data);
-            setMensaje('¡Partida creada exitosamente!');
-            setTimeout(() => {
-                navigate('/loggedin'); // Navegar de regreso después de un éxito
-            }, 2000);
+            const gameId = response.data.game.id; // ID de la partida creada
+
+            // Registrar al usuario en la partida
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/join-game`, {
+                mail: data.mail,
+                idGame: gameId,
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`, // Incluye el token
+                },
+              });
+            console.log('Usuario registrado en la partida');
+
+            // Redirigir al tablero
+            localStorage.setItem('idGame', gameId); // Guardar el ID de la partida en localStorage
+            navigate(`/board`);
         } catch (error) {
-            console.error('Error al crear la partida:', error);
+            console.error('Error al crear la partida o unirse a ella:', error);
             setMensaje('Hubo un error al crear la partida. Por favor, intenta nuevamente.');
         }
     };
+
 
     return (
         <div className="crear-container">
