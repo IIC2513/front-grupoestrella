@@ -97,6 +97,31 @@ const Board = () => {
     ));
   };
 
+  const deleteGame = async (gameId) => {
+    const userMail = localStorage.getItem("userMail");
+    const token = localStorage.getItem("token");
+  
+    try {
+      console.log("Enviando solicitud con mail y token:", userMail, token);
+  
+      const response = await axios.delete(
+        `http://localhost:3000/users/borrar/${gameId}`,
+        {
+          data: { mail: userMail }, // Enviamos el mail en el cuerpo de la solicitud
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // Asegura que el tipo de contenido esté definido
+          },
+        }
+      );
+      console.log("Partida eliminada:", response.data);
+      alert("La partida se eliminó correctamente.");
+    } catch (error) {
+      console.error("Error al eliminar la partida:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Hubo un error al intentar eliminar la partida.");
+    }
+  };
+  
   return (
     <div className="board">
       <h1>Trivia Board Challenge</h1>
@@ -104,10 +129,15 @@ const Board = () => {
         {generateBoard()}
       </div>
       <a href='/loggedin' className="button-link">Volver</a>
+      {/* Mostrar el botón "Iniciar Juego" solo si no hay boxes */}
+    {boxes.length === 0 && (
       <button onClick={handleStartGame} className="button-link start-button">Iniciar Juego</button>
+    )}
+
       {showQuestion && currentQuestion && (
         <Question question={currentQuestion} closeQuestion={() => setShowQuestion(false)} />
       )}
+
       <h2>Jugadores:</h2>
       <ul>
       {Object.values(players)
