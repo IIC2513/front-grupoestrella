@@ -84,8 +84,12 @@ function VerPartidas() {
               <p><strong>ID:</strong> {game.id}</p>
               <p><strong>Estado:</strong> {game.status === 0 ? 'Pendiente' : 'En Progreso'}</p>
               <p><strong>Turno:</strong> {game.turn}</p>
-              <button onClick={() => handleJoinGame(game.id)} className="button-link">
-                Join
+              <button
+                onClick={() => handleJoinGame(game.id)}
+                className="button-link"
+                disabled={game.status !== 0} // Deshabilitar si el estado no es 'Pendiente'
+              >
+                {game.status === 0 ? 'Join' : 'No Disponible'}
               </button>
             </div>
           ))

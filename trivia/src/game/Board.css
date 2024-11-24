@@ -24,4 +24,19 @@
     text-align: center;
   }
   
+  .dice-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .dice-image {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .play-button {
+    margin-top: 10px;
+  }
+  
   
