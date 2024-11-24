@@ -3,7 +3,7 @@ import React from 'react';
 import Instructions  from '../game/instructions'
 import UserWelcome from '../profile/UserWelcome'
 import App from './App'
-import Board from '../game/board'
+import Board from '../game/Board'
 import About from './About'
 import Register from '../profile/Register'
 import Login from '../profile/Login'
@@ -12,6 +12,7 @@ import LogoutButton from '../profile/Logout'
 import LoggedIn from './LoggedIn'
 import Crear from './Crear'
 import VerPartidas from './Verpartidas'
+import MisPartidas from './MisPartidas'
 
 function Routing(){
     return(
@@ -30,6 +31,7 @@ function Routing(){
             <Route path={"/loggedin"} element={<LoggedIn />}/>
             <Route path={"/crear"} element={<Crear />}/>
             <Route path={'/ver-partida'} element={<VerPartidas />} /> 
+            <Route path={'/mis-partidas'} element={<MisPartidas />} /> 
 
         </Routes>
         </BrowserRouter>
