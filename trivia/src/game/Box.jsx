@@ -4,11 +4,11 @@ import './Box.css';
 
 const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion }) => {
 
+    // Manejar el clic en la casilla
     const handleClick = () => {
-        if (questions && questions.length > 0) {
-            // Seleccionar una pregunta aleatoria de las asociadas a la box
-            const randomIndex = Math.floor(Math.random() * questions.length);
-            setCurrentQuestion(questions[randomIndex]);
+        const question = selectRandomQuestion({ questions });
+        if (question) {
+            setCurrentQuestion(question);
             setShowQuestion(true);
         }
     };
@@ -20,5 +20,22 @@ const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion }) => 
         </div>
     );
 };
+
+// Función para seleccionar una pregunta aleatoria de las asociadas a la casilla
+const selectRandomQuestion = (box) => {
+    console.log('box.questions dentro del componente:', box.questions);
+    if (box.questions && box.questions.length > 0) {
+        console.log('entré al if');
+        const randomIndex = Math.floor(Math.random() * box.questions.length);
+        return box.questions[randomIndex];
+    }
+    console.log('salí del if');
+    return null;
+};
+
+
+
+// Exportación nombrada de selectRandomQuestion para poder usarla en otros componentes
+export { selectRandomQuestion };
 
 export default Box;

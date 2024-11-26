@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Board.css';
-import Box from './Box';
+import Box, { selectRandomQuestion } from './Box';
 import Question from './Question';
 import Dice from '../assets/images/dice.png';
+
 
 const Board = () => {
   const [players, setPlayers] = useState([]);
@@ -26,6 +27,34 @@ const Board = () => {
     'entretenimiento': 'purple',
     'deporte': 'orange',
   };
+  
+  const updatePlayerPosition = async (playerName, gameId, newPosition) => {
+    try {
+      console.log(`Actualizando posición: ${playerName}, Juego: ${gameId}, Nueva Posición: ${newPosition}`);
+      const response = await axios.put(
+        `http://localhost:3000/players/${gameId}/${playerName}/update-position`,
+        { newPosition },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Respuesta del servidor:", response.data);
+  
+      // Actualizar la posición localmente
+      const updatedPlayers = players.map((player) =>
+        player.name === playerName ? { ...player, position: newPosition } : player
+      );
+      setPlayers(updatedPlayers);
+  
+      alert("¡Posición actualizada correctamente!");
+    } catch (error) {
+      console.error("Error al actualizar la posición del jugador:", error);
+      alert("Hubo un problema al actualizar la posición del jugador.");
+    }
+  };
+  
 
   const handleStartGame = async () => {
     try {
@@ -49,26 +78,6 @@ const Board = () => {
     }
   };
 
-  const handlePlay = async () => {
-    try {
-      const response = await axios.post(
-        `http://localhost:3000/players/play/${name}`, // Ruta del backend
-        {idGame: gameId},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Incluye el token
-          },
-        }
-      );
-      const result = response.data.dice; // Supongamos que el backend devuelve el valor del dado
-      setDiceResult(result);
-      console.log("Dado tirado:", result);
-    } catch (error) {
-      console.error("Error al jugar:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Hubo un error al intentar jugar.");
-    }
-  };
-
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
@@ -83,8 +92,8 @@ const Board = () => {
     const fetchBoxes = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/games/${gameId}/boxes`);
-        console.log('Boxes recibidos:', response.data);
-        setBoxes(response.data.boxes);
+        console.log('Boxes recibidos:', response.data); // Verifica estructura
+        setBoxes(response.data.boxes || []);
       } catch (error) {
         console.error('Error al obtener las boxes:', error);
       }
@@ -108,17 +117,83 @@ const Board = () => {
   }, [gameId]);
 
   const generateBoard = () => {
+    if (boxes.length === 0) return <p>Cargando tablero...</p>;
     return Object.values(boxes).map((box) => (
       <Box
         key={box.boxId}
         id={box.boxId}
         colour={categoryColors[box.category] || 'black'}
-        questions={box.questions}
-        setCurrentQuestion={setCurrentQuestion}
-        setShowQuestion={setShowQuestion}
+        //questions={box.questions}
+        //setCurrentQuestion={setCurrentQuestion}
+        //setShowQuestion={setShowQuestion}
       />
     ));
   };
+
+  const handlePlay = async () => {
+
+    try {
+      // 1. Generar un número aleatorio entre 1 y 6
+      const roll = Math.floor(Math.random() * 6) + 1;
+      setDiceResult(roll); // Mostrar el resultado del dado en la interfaz
+
+      // 2. Obtener la posición actual del jugador desde el backend
+      const playerResponse = await axios.get(`http://localhost:3000/players/name/${name}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const currentPlayer = playerResponse.data;
+      console.log("Jugador actual:", currentPlayer);
+      const currentPosition = currentPlayer.position;
+      console.log("Posición actual:", currentPosition);
+
+      // 3. Calcular la nueva posición del jugador
+      const casillaBuscada = currentPosition + roll;
+
+      // 4. Actualizar la posición del jugador en el backend (comentado por el momento)
+      //await axios.put(
+      //  http://localhost:3000/players/${currentPlayer.id}/update-position,
+      //  { newPosition: casillaBuscada },
+      //  {
+      //    headers: {
+      //      Authorization: Bearer ${localStorage.getItem('token')},
+      //    },
+      //  }
+      //);
+      console.log("Casilla buscada es la", casillaBuscada);
+
+      // 5. Hacer una nueva petición para obtener las preguntas asociadas a la casilla
+      const boxResponse = await axios.get(
+        `http://localhost:3000/games/${gameId}/boxes/${casillaBuscada}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
+  
+      const box = boxResponse.data.box;
+      console.log("Box recibido:", box);
+      console.log("Preguntas recibidas:", box.questions);
+  
+      // 4. Select a random question
+      if (box && box.questions && box.questions.length > 0) {
+        const question = selectRandomQuestion(box);
+        setCurrentQuestion({
+          ...question,
+          playerName: currentPlayer.name,
+          casillaBuscada,
+          gameId,
+        });
+        setShowQuestion(true);
+      } else {
+        alert("No hay preguntas disponibles para esta casilla.");
+      }
+    } catch (error) {
+      console.error("Error al mover al jugador o al obtener la pregunta:", error);
+      alert("Hubo un problema al realizar el movimiento. Inténtalo de nuevo.");
+    }
+  };
+
 
   return (
     <div className="board">
@@ -141,8 +216,16 @@ const Board = () => {
       </div>
 
       {showQuestion && currentQuestion && (
-        <Question question={currentQuestion} closeQuestion={() => setShowQuestion(false)} />
-      )}
+  <Question
+    question={currentQuestion}
+    closeQuestion={() => setShowQuestion(false)}
+    playerName={name} // Nombre del jugador
+    gameId={gameId} // ID del juego
+    casillaBuscada={diceResult + players.find((player) => player.name === name)?.position}
+    updatePlayerPosition={updatePlayerPosition} // Función para actualizar la posición
+  />
+)}
+
 
       <h2>Jugadores:</h2>
       <ul>
@@ -153,7 +236,7 @@ const Board = () => {
           )
           .map((player) => (
             <li key={player.id}>
-              {player.name} - Color: {player.colour}
+              {player.name} - Posicion: {player.position}
             </li>
           ))}
       </ul>
