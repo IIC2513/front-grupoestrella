@@ -1,10 +1,10 @@
 .board {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Usa 100% si necesitas ocupar todo el contenedor */
+}
   .board-grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr); /* Ajusta el número de columnas para el diseño */
@@ -16,6 +16,16 @@
   h1 {
     color: #FFA500;
   }
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ajusta esto según el tamaño del contenedor */
+  text-align: center;
+  font-size: 1.3rem; /* Ajusta el tamaño de fuente si es necesario */
+  color: #aa100a; /* Cambia el color según el diseño */
+}
 
   .waiting-message {
     color: gray;

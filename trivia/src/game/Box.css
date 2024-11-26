@@ -18,4 +18,19 @@
   .box.orange { background-color: darkorange; }
   .box.black { background-color: black; color: #FFF; }
   .box.gold { background-color: gold; color: #333; }
+
+  .box-content {
+    position: relative; /* Necesario para posicionar a los jugadores dentro */
+    overflow: visible; /* Asegura que las fichas sean visibles */
+  }
+  
+  
+  .player-token {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    border: 1px solid white;
+  }
+  
   

@@ -6,6 +6,7 @@ import Question from './Question';
 import Dice from '../assets/images/dice.png';
 
 
+
 const Board = () => {
   const [players, setPlayers] = useState([]);
   const [boxes, setBoxes] = useState([]);
@@ -116,18 +117,33 @@ const Board = () => {
     fetchGameInfo();
   }, [gameId]);
 
+  const getPlayersInBox = (boxId) => {
+    const adjustedBoxId = boxId - boxes[0]?.boxId; // Ajusta boxId relativo al primer boxId
+    return players.filter((player) => Number(player.position) === adjustedBoxId);
+  };
+  
+
   const generateBoard = () => {
-    if (boxes.length === 0) return <p>Cargando tablero...</p>;
-    return Object.values(boxes).map((box) => (
-      <Box
-        key={box.boxId}
-        id={box.boxId}
-        colour={categoryColors[box.category] || 'black'}
-        //questions={box.questions}
-        //setCurrentQuestion={setCurrentQuestion}
-        //setShowQuestion={setShowQuestion}
-      />
-    ));
+    if (boxes.length === 0)if (boxes.length === 0) {
+      return (
+        <div className="centered-container">
+          <p>Inicia juego para visualizar tablero...</p>
+        </div>
+      );
+    }
+    
+    return Object.values(boxes).map((box) => {
+      const playersInBox = getPlayersInBox(box.boxId);
+      console.log(`Casilla ${box.boxId} tiene jugadores:`, playersInBox);
+      return (
+        <Box
+          key={box.boxId}
+          id={box.boxId}
+          colour={categoryColors[box.category] || 'black'}
+          playersInBox={playersInBox}
+        />
+      );
+    });
   };
 
   const handlePlay = async () => {
@@ -151,16 +167,6 @@ const Board = () => {
       // 3. Calcular la nueva posición del jugador
       const casillaBuscada = currentPosition + roll;
 
-      // 4. Actualizar la posición del jugador en el backend (comentado por el momento)
-      //await axios.put(
-      //  http://localhost:3000/players/${currentPlayer.id}/update-position,
-      //  { newPosition: casillaBuscada },
-      //  {
-      //    headers: {
-      //      Authorization: Bearer ${localStorage.getItem('token')},
-      //    },
-      //  }
-      //);
       console.log("Casilla buscada es la", casillaBuscada);
 
       // 5. Hacer una nueva petición para obtener las preguntas asociadas a la casilla
@@ -185,6 +191,18 @@ const Board = () => {
           gameId,
         });
         setShowQuestion(true);
+
+        const playersResponse = await axios.get(
+          `http://localhost:3000/games/${gameId}/players`
+        );
+        const boxesResponse = await axios.get(
+          `http://localhost:3000/games/${gameId}/boxes`
+        );
+        
+      setPlayers(playersResponse.data.players);
+      console.log("Jugadores actualizados:", playersResponse.data.players);
+      setBoxes(boxesResponse.data.boxes); 
+        
       } else {
         alert("No hay preguntas disponibles para esta casilla.");
       }

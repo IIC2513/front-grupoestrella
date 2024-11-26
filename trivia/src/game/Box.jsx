@@ -2,7 +2,7 @@
 import React from 'react';
 import './Box.css';
 
-const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion }) => {
+const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion, playersInBox}) => {
 
     // Manejar el clic en la casilla
     const handleClick = () => {
@@ -13,12 +13,25 @@ const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion }) => 
         }
     };
 
-    return (
-        <div className={`box ${colour}`} onClick={handleClick}>
-            <div className="box-content">
-            </div>
-        </div>
-    );
+    return (<div className={`box ${colour}`}>
+        <div className="box-content">
+    {playersInBox.map((player, index) => (
+    <div
+      key={index}
+      className="player-token"
+      style={{
+        backgroundColor: player.colour || 'white', // Usa el color asociado al jugador
+        top: `${10 + index * 15}%`, // Ajusta para evitar superposición
+        left: `${10 + index * 15}%`,
+      }}
+      title={player.name} // Tooltip con el nombre del jugador
+    >
+      {/* Puedes agregar texto o un ícono dentro de la ficha */}
+      {player.name[0]} {/* Primera letra del nombre */}
+    </div>
+  ))}
+</div>
+</div>);
 };
 
 // Función para seleccionar una pregunta aleatoria de las asociadas a la casilla
