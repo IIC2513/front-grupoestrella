@@ -14,6 +14,7 @@ const Board = () => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [diceResult, setDiceResult] = useState(null); // Resultado del dado
   const [isOwner, setIsOwner] = useState(false);
+  const [currentTurn, setCurrentTurn] = useState(0);
 
   const gameId = localStorage.getItem("idGame"); // ID de la partida específica
   const userMail = localStorage.getItem("userMail"); // Correo del usuario
@@ -24,7 +25,7 @@ const Board = () => {
     'historias': 'red',
     'geografia': 'blue',
     'ciencias': 'green',
-    'cultura general': 'yellow',
+    'cultura': 'yellow',
     'entretenimiento': 'purple',
     'deporte': 'orange',
   };
@@ -55,6 +56,12 @@ const Board = () => {
       alert("Hubo un problema al actualizar la posición del jugador.");
     }
   };
+
+  const getCurrentPlayer = () => {
+    if (players.length === 0) return null;
+    return players[currentTurn % players.length]; // Usa módulo para evitar desbordamiento
+  };
+  
   
 
   const handleStartGame = async () => {
@@ -107,6 +114,7 @@ const Board = () => {
 
         // Verifica si el usuario es el propietario
         setIsOwner(response.data.idOwner === userMail);
+        setCurrentTurn(response.data.turn);
       } catch (error) {
         console.error('Error al obtener la información del juego:', error);
       }
@@ -134,7 +142,6 @@ const Board = () => {
     
     return Object.values(boxes).map((box) => {
       const playersInBox = getPlayersInBox(box.boxId);
-      console.log(`Casilla ${box.boxId} tiene jugadores:`, playersInBox);
       return (
         <Box
           key={box.boxId}
@@ -225,14 +232,19 @@ const Board = () => {
         <button onClick={handleStartGame} className="button-link start-button">Iniciar Juego</button>
       )}
 
-      <div className="dice-container">
-         <img src={Dice} className="dice-image" />
-        <button onClick={handlePlay} className="button-link play-button">
-          Jugar
-        </button>
-        {diceResult !== null && <p>Resultado del dado: {diceResult}</p>}
-      </div>
-
+<div className="dice-container">
+  <img src={Dice} className="dice-image" />
+  {getCurrentPlayer()?.name === name ? (
+    <button onClick={handlePlay} className="button-link play-button">
+      Jugar
+    </button>
+  ) : (
+    <button className="button-link play-button disabled" disabled>
+      Esperando turno
+    </button>
+  )}
+  {diceResult !== null && <p>Resultado del dado: {diceResult}</p>}
+</div>
       {showQuestion && currentQuestion && (
   <Question
     question={currentQuestion}
@@ -258,6 +270,7 @@ const Board = () => {
             </li>
           ))}
       </ul>
+      <h2>Turno de: {getCurrentPlayer()?.name || "Cargando..."}</h2>
     </div>
   );
 };
