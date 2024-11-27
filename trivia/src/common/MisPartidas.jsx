@@ -81,7 +81,6 @@ function MisPartidas() {
             <div key={game.id} className="game-card">
               <p><strong>ID:</strong> {game.id}</p>
               <p><strong>Estado:</strong> {game.status === 0 ? 'Pendiente' : 'En Progreso'}</p>
-              <p><strong>Turno:</strong> {game.turn}</p>
               <button onClick={() => handleJoinGame(game.id)} className="button-link">
                 Continuar Partida
               </button>

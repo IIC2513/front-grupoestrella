@@ -4,6 +4,7 @@ import './Board.css';
 import Box, { selectRandomQuestion } from './Box';
 import Question from './Question';
 import Dice from '../assets/images/dice.png';
+import WinnerScreen from './WinnerScreen';
 
 
 
@@ -15,6 +16,8 @@ const Board = () => {
   const [diceResult, setDiceResult] = useState(null); // Resultado del dado
   const [isOwner, setIsOwner] = useState(false);
   const [currentTurn, setCurrentTurn] = useState(0);
+  const [gameStatus, setGameStatus] = useState(0);
+  const [winner, setWinner] = useState(null);
 
   const gameId = localStorage.getItem("idGame"); // ID de la partida específica
   const userMail = localStorage.getItem("userMail"); // Correo del usuario
@@ -32,6 +35,9 @@ const Board = () => {
   
   const updatePlayerPosition = async (playerName, gameId, newPosition) => {
     try {
+      if (newPosition >= 50) {
+        newPosition=50;
+      }
       console.log(`Actualizando posición: ${playerName}, Juego: ${gameId}, Nueva Posición: ${newPosition}`);
       const response = await axios.put(
         `http://localhost:3000/players/${gameId}/${playerName}/update-position`,
@@ -49,6 +55,10 @@ const Board = () => {
         player.name === playerName ? { ...player, position: newPosition } : player
       );
       setPlayers(updatedPlayers);
+
+      if (newPosition >= 50) {
+        handleGameEnd({ winner: playerName });
+      }
   
       alert("¡Posición actualizada correctamente!");
     } catch (error) {
@@ -61,14 +71,31 @@ const Board = () => {
     if (players.length === 0) return null;
     return players[currentTurn % players.length]; 
   };
-  
-  const advanceTurn = () => {
-    setCurrentTurn((prevTurn) => prevTurn + 1); 
+ 
+  const advanceTurn = async () => {
+    try {
+      const newTurn = (currentTurn + 1) % players.length; // Calcula el siguiente turno
+      setCurrentTurn(newTurn); // Actualiza el estado local inmediatamente
+      await axios.put(
+        `http://localhost:3000/games/${gameId}/update-turn`,
+        { turn: newTurn },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(`Turno actualizado a ${newTurn}`);
+    } catch (error) {
+      console.error("Error al actualizar el turno:", error);
+      alert("Hubo un problema al avanzar el turno.");
+    }
   };
+  
+  
 
   const handleStartGame = async () => {
     try {
-      console.log("Datos enviados:", { gameId, mail: userMail });
 
       const response = await axios.post(
         `http://localhost:3000/users/${gameId}/start`, // Ajustamos la URL para no incluir el mail
@@ -79,7 +106,6 @@ const Board = () => {
           },
         }
       );
-      console.log('Juego iniciado:', response.data);
       alert("¡La partida ha comenzado!");
       window.location.reload();
     } catch (error) {
@@ -92,7 +118,6 @@ const Board = () => {
     const fetchPlayers = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/games/${gameId}/players`);
-        console.log('Jugadores recibidos:', response.data);
         setPlayers(response.data.players);
       } catch (error) {
         console.error('Error al obtener los jugadores:', error);
@@ -102,7 +127,6 @@ const Board = () => {
     const fetchBoxes = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/games/${gameId}/boxes`);
-        console.log('Boxes recibidos:', response.data); // Verifica estructura
         setBoxes(response.data.boxes || []);
       } catch (error) {
         console.error('Error al obtener las boxes:', error);
@@ -112,24 +136,59 @@ const Board = () => {
     const fetchGameInfo = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/games/${gameId}`);
-        console.log('Información del juego:', response.data);
 
         // Verifica si el usuario es el propietario
         setIsOwner(response.data.idOwner === userMail);
         setCurrentTurn(response.data.turn);
+        
+        if (response.data.status === 2) {
+          console.log("El juego ya está finalizado. Redirigiendo a WinnerScreen...");
+        }
       } catch (error) {
         console.error('Error al obtener la información del juego:', error);
+      }
+    };
+
+    const checkGameStatus = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/games/${gameId}`);
+        setGameStatus(response.data.status); // Actualiza el estado del juego
+        setWinner(response.data.winner || null); // Si hay un ganador, actualízalo
+      } catch (error) {
+        console.error("Error al verificar el estado del juego:", error);
       }
     };
 
     fetchPlayers();
     fetchBoxes();
     fetchGameInfo();
+    checkGameStatus();
+    
   }, [gameId]);
 
   const getPlayersInBox = (boxId) => {
     const adjustedBoxId = boxId - boxes[0]?.boxId; // Ajusta boxId relativo al primer boxId
     return players.filter((player) => Number(player.position) === adjustedBoxId);
+  };
+
+  
+  const handleGameEnd = async (winner) => {
+    setWinner(winner); 
+    setGameStatus(2);
+  
+    try {
+      await axios.put(
+        `http://localhost:3000/games/${gameId}/end`,
+        { status: 2, winner },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error al finalizar el juego:", error);
+    }
   };
   
 
@@ -175,7 +234,11 @@ const Board = () => {
       console.log("Posición actual:", currentPosition);
 
       // 3. Calcular la nueva posición del jugador
-      const casillaBuscada = currentPosition + roll;
+      let casillaBuscada = currentPosition + roll;
+
+      if (casillaBuscada >= 50) {
+        casillaBuscada=49;
+      }
 
       console.log("Casilla buscada es la", casillaBuscada);
 
@@ -221,7 +284,10 @@ const Board = () => {
       alert("Hubo un problema al realizar el movimiento. Inténtalo de nuevo.");
     }
   };
-
+  
+  if (gameStatus && winner) {
+    return <WinnerScreen winner={winner} players={players} />;
+  }
 
   return (
     <div className="board">
@@ -255,6 +321,7 @@ const Board = () => {
     playerName={name} // Nombre del jugador
     gameId={gameId} // ID del juego
     casillaBuscada={diceResult + players.find((player) => player.name === name)?.position}
+    casillaOriginal={players.find((player) => player.name === name)?.position}
     updatePlayerPosition={updatePlayerPosition} 
     advanceTurn={advanceTurn}  // Función para actualizar la posición
   />
