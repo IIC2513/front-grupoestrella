@@ -35,7 +35,7 @@ const Board = () => {
   
   const updatePlayerPosition = async (playerName, gameId, newPosition) => {
     try {
-      if (newPosition >= 50) {
+      if (newPosition >= 49) {
         newPosition=50;
       }
       console.log(`Actualizando posición: ${playerName}, Juego: ${gameId}, Nueva Posición: ${newPosition}`);
@@ -89,6 +89,15 @@ const Board = () => {
     } catch (error) {
       console.error("Error al actualizar el turno:", error);
       alert("Hubo un problema al avanzar el turno.");
+    }
+  };
+
+  const fetchGameInfo = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/games/${gameId}`);
+      setCurrentTurn(response.data.turn);
+    } catch (error) {
+      console.error('Error al obtener la información del juego:', error);
     }
   };
   
@@ -236,13 +245,13 @@ const Board = () => {
       // 3. Calcular la nueva posición del jugador
       let casillaBuscada = currentPosition + roll;
 
-      if (casillaBuscada >= 50) {
+      if (casillaBuscada >= 49) {
         casillaBuscada=49;
       }
 
       console.log("Casilla buscada es la", casillaBuscada);
 
-      // 5. Hacer una nueva petición para obtener las preguntas asociadas a la casilla
+      // 5. Hacer una nueva request para obtener las preguntas asociadas a la casilla
       const boxResponse = await axios.get(
         `http://localhost:3000/games/${gameId}/boxes/${casillaBuscada}`,
         {
@@ -323,7 +332,8 @@ const Board = () => {
     casillaBuscada={diceResult + players.find((player) => player.name === name)?.position}
     casillaOriginal={players.find((player) => player.name === name)?.position}
     updatePlayerPosition={updatePlayerPosition} 
-    advanceTurn={advanceTurn}  // Función para actualizar la posición
+    advanceTurn={advanceTurn} 
+    fetchGameInfo={fetchGameInfo} // Función para actualizar la posición
   />
 )}
 

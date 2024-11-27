@@ -80,9 +80,9 @@ function MisPartidas() {
           games.map((game) => (
             <div key={game.id} className="game-card">
               <p><strong>ID:</strong> {game.id}</p>
-              <p><strong>Estado:</strong> {game.status === 0 ? 'Pendiente' : 'En Progreso'}</p>
+              <p><strong>Estado:</strong> {game.status === 0 ? 'Pendiente' : game.status === 2 ? 'Finalizado' : 'En Progreso'}</p>
               <button onClick={() => handleJoinGame(game.id)} className="button-link">
-                Continuar Partida
+               {game.status === 2 ? 'Ver Resultados' : 'Continuar Partida'}
               </button>
             </div>
           ))

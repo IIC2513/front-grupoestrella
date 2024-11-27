@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Question.css";
 
-const Question = ({ question, closeQuestion, playerName, gameId, casillaBuscada, casillaOriginal, updatePlayerPosition , advanceTurn}) => {
+const Question = ({ question, closeQuestion, playerName, gameId, casillaBuscada, casillaOriginal, updatePlayerPosition , advanceTurn, fetchGameInfo}) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   // Manejar la selección de una opción
@@ -20,11 +20,13 @@ const Question = ({ question, closeQuestion, playerName, gameId, casillaBuscada,
       alert("Respuesta incorrecta.");
       if (playerName && casillaBuscada && gameId) {
         updatePlayerPosition(playerName, gameId, casillaOriginal);
+        
       }
     }
+    
     closeQuestion(); 
-    await advanceTurn(); 
-    await fetchGameInfo();// Cierra el modal después de responder
+    await advanceTurn();
+    //await fetchGameInfo(); 
   };
 
   return (
