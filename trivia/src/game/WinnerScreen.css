@@ -1,0 +1,25 @@
+.winner-screen {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .winner-screen h1 {
+    font-size: 2.5em;
+    color: #4caf50;
+  }
+  
+  .winner-screen h2 {
+    font-size: 2em;
+    margin-top: 10px;
+  }
+  
+  .winner-screen ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .winner-screen li {
+    font-size: 1.5em;
+    margin: 5px 0;
+  }
+  

@@ -59,10 +59,12 @@ const Board = () => {
 
   const getCurrentPlayer = () => {
     if (players.length === 0) return null;
-    return players[currentTurn % players.length]; // Usa módulo para evitar desbordamiento
+    return players[currentTurn % players.length]; 
   };
   
-  
+  const advanceTurn = () => {
+    setCurrentTurn((prevTurn) => prevTurn + 1); 
+  };
 
   const handleStartGame = async () => {
     try {
@@ -148,6 +150,7 @@ const Board = () => {
           id={box.boxId}
           colour={categoryColors[box.category] || 'black'}
           playersInBox={playersInBox}
+          advanceTurn={advanceTurn}
         />
       );
     });
@@ -161,7 +164,7 @@ const Board = () => {
       setDiceResult(roll); // Mostrar el resultado del dado en la interfaz
 
       // 2. Obtener la posición actual del jugador desde el backend
-      const playerResponse = await axios.get(`http://localhost:3000/players/name/${name}`, {
+      const playerResponse = await axios.get(`http://localhost:3000/players/name/${name}/${gameId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -252,7 +255,8 @@ const Board = () => {
     playerName={name} // Nombre del jugador
     gameId={gameId} // ID del juego
     casillaBuscada={diceResult + players.find((player) => player.name === name)?.position}
-    updatePlayerPosition={updatePlayerPosition} // Función para actualizar la posición
+    updatePlayerPosition={updatePlayerPosition} 
+    advanceTurn={advanceTurn}  // Función para actualizar la posición
   />
 )}
 
