@@ -12,6 +12,18 @@ const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion, playe
             setShowQuestion(true);
         }
     };
+    const getPosition = (index) => {
+        const gridSize = Math.ceil(Math.sqrt(playersInBox.length)); // Define una cuadrícula dinámica
+        const row = Math.floor(index / gridSize);
+        const col = index % gridSize;
+    
+        const cellSize = 100 / gridSize; // Tamaño relativo de cada celda
+        return {
+          top: `${row * cellSize + cellSize / 4}%`,
+          left: `${col * cellSize + cellSize / 4}%`,
+        };
+      };
+    
 
     return (<div className={`box ${colour}`}>
         <div className="box-content">
@@ -21,8 +33,7 @@ const Box = ({ id, colour, questions, setCurrentQuestion, setShowQuestion, playe
       className="player-token"
       style={{
         backgroundColor: player.colour || 'white', // Usa el color asociado al jugador
-        top: `${10 + index * 15}%`, // Ajusta para evitar superposición
-        left: `${10 + index * 15}%`,
+        ...getPosition(index),
       }}
       title={player.name} // Tooltip con el nombre del jugador
     >

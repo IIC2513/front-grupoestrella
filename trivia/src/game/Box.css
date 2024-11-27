@@ -25,12 +25,23 @@
   }
   
   
+  .box-content {
+    position: relative; /* Necesario para posicionar a los jugadores dentro */
+    width: 100%; /* Asegura que el contenedor tome todo el espacio de la casilla */
+    height: 100%;
+  }
+  
   .player-token {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    position: absolute;
     border: 1px solid white;
+    position: absolute;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
   }
   
   
